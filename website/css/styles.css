@@ -61,6 +61,10 @@ nav a:hover {   /* links in nav bar when you hover over them */
   text-decoration: underline;   /* now underline */
 }
 
+nav a.active {  /* adds the script.js active modifier */
+    text-decoration: line-through;  /* idk what to put so it should be a strikethrough rn - CHANGE LATER */
+}
+
 section {   /* sections */
   padding: 1.5rem 0;      /* space between sections */
 }
