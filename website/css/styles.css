@@ -1,0 +1,75 @@
+/* main colors for stuff */
+:root {
+  --bg: #a13dff5b;       /* page background - periwinkle*/
+  --text: #1c1535;     /* main text - black*/
+  --accent: #7c5cf0;   /* links - blue */
+}   /* reminder add dark mode */
+
+* {     /* applies to everything cus of the * */
+  box-sizing: border-box;   /* shrinks the box padding so dimensions are stable (better than content-box?) */
+}
+
+/* main page body stuff */
+body {
+  margin: 0;    /* all sides 0 margin so body goes everywhere */
+  background: var(--bg);    /* colors the background periwinkle */
+  color: var(--text);   /* text color */
+  font-family: "Comic Sans MS", "Chalkboard SE", cursive, sans-serif;   
+    /* windows comics sans, apple chalkboard, other is cursive and then sans-serif - CHANGE IT TO SOMETHING BETTER LATER*/
+  line-height: 1.5;     /* 1.5 line spacing */
+}
+
+/* headers */
+h1, h2 {
+  line-height: 1.15;    /* 1.15 line spacing */
+}
+
+/* paragraphs */
+p {
+
+}
+
+/* hyperlinks */
+a {
+  color: var(--accent);
+  font-weight: 600;     /* bold text */
+}
+
+/* head foot section */
+header, nav, main, footer {
+  max-width: 700px;       /* max width of sentence/line */
+  margin: 0 auto;         /* center text */
+  padding: 1rem 1.5rem;     /* spacing (rem is default font size) */
+}
+
+header {
+  padding-top: 2rem;    /* extra padding for top */
+}
+
+nav {   /* navigation bar */
+  display: flex;          /* horizontal navbar (CSS FlexBox) */
+  flex-wrap: wrap;        /* becomes new line if too thin */
+  gap: 1rem;    /* gap between each link */
+  border-bottom: 1px solid;     /* bottom border bar 1 px thick solid bar */
+}
+
+nav a {     /* links in nav bar */
+  text-decoration: none;    /* no underline */
+}
+
+nav a:hover {   /* links in nav bar when you hover over them */
+  text-decoration: underline;   /* now underline */
+}
+
+section {   /* sections */
+  padding: 1.5rem 0;      /* space between sections */
+}
+
+footer {    /* footer */
+  font-size: .9rem;     /* slightly smaller */
+}
+
+/* whole thing */
+html {
+  scroll-behavior: smooth;  /* scrolls smoothly to link */
+}
