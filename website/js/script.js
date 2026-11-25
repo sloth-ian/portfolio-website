@@ -6,7 +6,9 @@ nav.innerHTML = "";   // removes all links inside (no duplicates)
 sections.forEach(function (section) {
   const link = document.createElement("a"); // new <a> tag
   link.href = "#" + section.id;                           // makes a link with # and the name of the section
-  link.textContent = section.querySelector("h2").textContent;   // finds the heading title and makes it the name of the link
+  link.textContent = section.dataset.title || section.querySelector("h2").textContent;   
+    // finds the heading title and makes it the name of the link
+    // also tries a dataset title first if it exists
   nav.appendChild(link);    // puts the link and stuff into nav
 });
 
