@@ -1,5 +1,5 @@
 const nav = document.getElementById("nav");     // get nav / finds the id = nav in html
-const sections = document.querySelectorAll("main section");     // saves all sections in main
+const sections = Array.from(document.querySelectorAll("main section"));     // saves all sections in main + has the .some function
 
 nav.innerHTML = "";   // removes all links inside (no duplicates)
 
@@ -12,13 +12,21 @@ sections.forEach(function (section) {
   nav.appendChild(link);    // puts the link and stuff into nav
 });
 
-function highlight() {  // little button function when you click a link in nav
-  const links = nav.querySelectorAll("a");  // gets all of the links
-  links.forEach(function (link) {   // for each link in the link
-    link.classList.toggle("active", link.getAttribute("href") === location.hash);   
-        // checks if the link is the same as page url link (location hash) if yes add active to link
+function showSection(id) {  // old highlight function + it hides all the sections
+  sections.forEach(function (section) {
+    section.classList.toggle("hidden", section.id !== id);  // adds hidden modifier to everything but the section clicked
+  });
+  nav.querySelectorAll("a").forEach(function (link) {   // gets all of the links
+    link.classList.toggle("active", link.getAttribute("href") === "#" + id);    
+        // checks if the link is the same as page url link - uses the href name instead of location hash
   });
 }
 
-window.addEventListener("hashchange", highlight);   // listens if the link changes (kinda like JButton)
-highlight();    // already runs highlight just in case the link is already changed                                        
+function route() {  // reads url to check section hider
+  const id = location.hash.slice(1);    // gets the id name
+  const exists = sections.some(function (section) { return section.id === id; });   // uses some to check if the id is equal
+  showSection(exists ? id : sections[0].id);    // if the section does exist then you go there if not just do main section
+}
+
+window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
+route();    // already runs highlight(route now) just in case the link is already changed                                        
