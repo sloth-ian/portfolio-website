@@ -72,6 +72,7 @@ function showMenu() {                              // menu mode: only the wheel
 function showSection(i) {  // old highlight function + it hides all the sections + slice
     current = i;
     setHighlight(i);
+    document.body.classList.add("viewing");
     sections.forEach(function (section, j) {
         section.classList.toggle("hidden", j !== i);
     });
