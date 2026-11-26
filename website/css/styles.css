@@ -147,3 +147,9 @@ nav.wheel {     /* wheel variable */
   stroke: var(--bg);
   stroke-opacity: .4;
 }
+
+/* exit code */
+#back { display: none; }
+
+body.viewing nav.wheel { display: none; }
+body.viewing #back { display: block; margin-bottom: 1rem; }

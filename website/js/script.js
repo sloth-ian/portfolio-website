@@ -62,6 +62,13 @@ const slices = sections.map(function (section, i) {
 
 make("circle", { "class": "hub", r: hub }, svg);
 
+function showMenu() {                              // menu mode: only the wheel
+    current = -1;                                  // nothing is selected
+    document.body.classList.remove("viewing");
+    sections.forEach(function (section) { section.classList.add("hidden"); });
+    slices.forEach(function (slice) { slice.classList.remove("active"); });
+}
+
 function showSection(i) {  // old highlight function + it hides all the sections + slice
     current = i;
     setHighlight(i);
@@ -71,6 +78,7 @@ function showSection(i) {  // old highlight function + it hides all the sections
     slices.forEach(function (slice, j) {    
         slice.classList.toggle("active", j === i);
     });
+    window.scrollTo(0, 0);
 }
 
 function setHighlight(i) {
@@ -91,22 +99,30 @@ function moveHighlight(direction) {
 function route() {  // reads url to check section hider
     const id = location.hash.slice(1);    // gets the id name
     let i = sections.findIndex(function (section) { return section.id === id; });   // we find index now
-    if (i < 0) i = 0;   // if it doesn't exist we just put 0 
-    showSection(i);
+    if (i < 0) {
+        showMenu();
+    } else {
+        showSection(i);
+    }
 }
 
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
 route();    // already runs highlight(route now) just in case the link is already changed                   
 
 window.addEventListener("keydown", function (e) {   // arrow key buttons now! + enter
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        e.preventDefault();                        
-        moveHighlight(1);
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        e.preventDefault();                          
-        moveHighlight(-1);
-    } else if (e.key === "Enter") {
-        e.preventDefault();                          
-        location.hash = sections[highlighted].id;    // select the highlighted slice
+    const viewing = document.body.classList.contains("viewing");    // checks if we are on the menu page or not
+    if (e.key === "Escape" && viewing) {    // escape exit
+        location.hash = "";
+    } else if (!viewing) {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            e.preventDefault();                        
+            moveHighlight(1);
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            e.preventDefault();                          
+            moveHighlight(-1);
+        } else if (e.key === "Enter") {
+            e.preventDefault();                          
+            location.hash = sections[highlighted].id;    // select the highlighted slice
+        }
     }
 });
