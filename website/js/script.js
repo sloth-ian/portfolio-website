@@ -57,7 +57,7 @@ const slices = sections.map(function (section, i) {
 
     slice.addEventListener("mouseenter", function () { setHighlight(i); });
     slice.addEventListener("focus", function () { setHighlight(i); });
-    
+
     slice.addEventListener("mouseleave", function () { slice.classList.remove("highlight"); });
     slice.addEventListener("blur", function() { slice.classList.remove("highlight"); });
 
@@ -70,7 +70,7 @@ function showMenu() {                              // menu mode: only the wheel
     current = -1;                                  // nothing is selected
     document.body.classList.remove("viewing");
     sections.forEach(function (section) { section.classList.add("hidden"); });
-    slices.forEach(function (slice) { slice.classList.remove("active"); });
+    slices.forEach(function (slice) { slice.classList.remove("active", "highlight"); });
 }
 
 function showSection(i) {  // old highlight function + it hides all the sections + slice
