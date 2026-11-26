@@ -44,10 +44,11 @@ const slices = sections.map(function (section, i) {
 
     //slice maker
     const slice = make("a", { "class": "slice", href: "#" + section.id }, svg);
-    slice.style.setProperty("--h", (250 + (i / sections.length) * 360) % 360);   // each slice gets its own color
+    slice.style.setProperty("--h", (250 + (i / sections.length) * 360) % 360);   
+        // each slice gets its own color - FIGURE OUT BETTER COLOR SETUP LATER
 
-    make("path", { "class": "hit", d: path }, slice);          // invisible copy that stays put, so hovering never flickers
-    const shape = make("g", { "class": "shape" }, slice);   // the visible part that grows
+    make("path", { "class": "hit", d: path }, slice);          // hitbox invisible
+    const shape = make("g", { "class": "shape" }, slice);   // slice go bigger
     make("path", { d: path }, shape);
     const pos = point(labelDist, mid);
     make("text", { "class": "label", x: pos[0], y: pos[1] }, shape).textContent = label;
