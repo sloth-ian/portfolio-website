@@ -36,9 +36,6 @@ nav.classList.add("wheel");
 const svg = make("svg", { viewBox: "-250 -250 500 500" }, nav);
 
 const slices = sections.map(function (section, i) {
-    slice.addEventListener("mouseenter", function () { setHighlight(i); });
-    slice.addEventListener("focus", function () { setHighlight(i); });
-
     const start = (i - 0.5) * step - Math.PI / 2;   // first slice is centered at the top
     const end = start + step;
     const mid = (start + end) / 2;
@@ -57,6 +54,9 @@ const slices = sections.map(function (section, i) {
     make("path", { d: path }, shape);
     const pos = point(labelDist, mid);
     make("text", { "class": "label", x: pos[0], y: pos[1] }, shape).textContent = label;
+
+    slice.addEventListener("mouseenter", function () { setHighlight(i); });
+    slice.addEventListener("focus", function () { setHighlight(i); });
     return slice;
 });
 
