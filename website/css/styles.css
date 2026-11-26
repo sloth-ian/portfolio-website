@@ -1,27 +1,29 @@
+/* PART ONE - MVP STUFF (BASICALLY) */
+
 /* main colors for stuff */
 :root {
-  --bg: #a13dff5b;       /* page background - periwinkle*/
-  --text: #1c1535;     /* main text - black*/
-  --accent: #7c5cf0;   /* links - blue */
+    --bg: #a13dff5b;       /* page background - periwinkle*/
+    --text: #1c1535;     /* main text - black*/
+    --accent: #7c5cf0;   /* links - blue */
 }   /* reminder add dark mode */
 
 * {     /* applies to everything cus of the * */
-  box-sizing: border-box;   /* shrinks the box padding so dimensions are stable (better than content-box?) */
+    box-sizing: border-box;   /* shrinks the box padding so dimensions are stable (better than content-box?) */
 }
 
 /* main page body stuff */
 body {
-  margin: 0;    /* all sides 0 margin so body goes everywhere */
-  background: var(--bg);    /* colors the background periwinkle */
-  color: var(--text);   /* text color */
-  font-family: "Comic Sans MS", "Chalkboard SE", cursive, sans-serif;   
+    margin: 0;    /* all sides 0 margin so body goes everywhere */
+    background: var(--bg);    /* colors the background periwinkle */
+    color: var(--text);   /* text color */
+    font-family: "Comic Sans MS", "Chalkboard SE", cursive, sans-serif;   
     /* windows comics sans, apple chalkboard, other is cursive and then sans-serif - CHANGE IT TO SOMETHING BETTER LATER*/
-  line-height: 1.5;     /* 1.5 line spacing */
+    line-height: 1.5;     /* 1.5 line spacing */
 }
 
 /* headers */
 h1, h2 {
-  line-height: 1.15;    /* 1.15 line spacing */
+    line-height: 1.15;    /* 1.15 line spacing */
 }
 
 /* paragraphs */
@@ -31,34 +33,34 @@ p {
 
 /* hyperlinks */
 a {
-  color: var(--accent);
-  font-weight: 600;     /* bold text */
+    color: var(--accent);
+    font-weight: 600;     /* bold text */
 }
 
 /* head foot section */
 header, nav, main, footer {
-  max-width: 700px;       /* max width of sentence/line */
-  margin: 0 auto;         /* center text */
-  padding: 1rem 1.5rem;     /* spacing (rem is default font size) */
+    max-width: 700px;       /* max width of sentence/line */
+    margin: 0 auto;         /* center text */
+    padding: 1rem 1.5rem;     /* spacing (rem is default font size) */
 }
 
 header {
-  padding-top: 2rem;    /* extra padding for top */
+    padding-top: 2rem;    /* extra padding for top */
 }
 
 nav {   /* navigation bar */
-  display: flex;          /* horizontal navbar (CSS FlexBox) */
-  flex-wrap: wrap;        /* becomes new line if too thin */
-  gap: 1rem;    /* gap between each link */
-  border-bottom: 1px solid;     /* bottom border bar 1 px thick solid bar */
+    display: flex;          /* horizontal navbar (CSS FlexBox) */
+    flex-wrap: wrap;        /* becomes new line if too thin */
+    gap: 1rem;    /* gap between each link */
+    border-bottom: 1px solid;     /* bottom border bar 1 px thick solid bar */
 }
 
 nav a {     /* links in nav bar */
-  text-decoration: none;    /* no underline */
+    text-decoration: none;    /* no underline */
 }
 
 nav a:hover {   /* links in nav bar when you hover over them */
-  text-decoration: underline;   /* now underline */
+    text-decoration: underline;   /* now underline */
 }
 
 nav a.active {  /* adds the script.js active modifier */
@@ -70,14 +72,75 @@ nav a.active {  /* adds the script.js active modifier */
 }
 
 section {   /* sections */
-  padding: 1.5rem 0;      /* space between sections */
+    padding: 1.5rem 0;      /* space between sections */
 }
 
 footer {    /* footer */
-  font-size: .9rem;     /* slightly smaller */
+    font-size: .9rem;     /* slightly smaller */
 }
 
 /* whole thing */
 html {
-  scroll-behavior: smooth;  /* scrolls smoothly to link */
+    scroll-behavior: smooth;  /* scrolls smoothly to link */
+}
+
+/* PART TWO - THE WHEEL (ring disk circle spinny thing) */
+
+nav.wheel {     /* wheel variable */
+    --size: min(86vw, 380px);   /* size of the wheel (86% of view width at max) */
+    display: block;
+    width: var(--size);
+    max-width: none;
+    margin: 2rem auto;
+    padding: 0;
+    border-bottom: none;
+}
+
+.wheel svg {    /* svg allows me to be more exact in this case */
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;    /* can go outside of frame */
+}
+
+.slice {    /* slice variable */
+    cursor: pointer;  /* turns the cursor into the little pointing hand */
+    outline: none;    /* no outline */
+}
+.slice .hit {
+    fill: transparent;              
+    /* make the slice invisible, and then later on other code will make the shape more visible so it doesn't flicker with the cursor */
+}
+.slice .shape {
+    transform-origin: 0 0;          /* 0 0 is center of circle, anchor point */
+    transition: transform .25s ease-out, filter .25s;     /* smooth transform */
+}
+.slice .shape path {    /* path inside of shape inside of slice */
+    fill: hsl(var(--h) 75% 75%);  /* color + saturation */
+    stroke: hsl(var(--h) 75%);   /* stroke color same as fill color */
+    stroke-width: 1.5;    /* no gaps */
+    stroke-linejoin: round;   /* no pointy bits */
+}
+
+.slice .label {
+    fill: #140f2b;
+    font-weight: 700;
+    font-size: 15px;
+    text-anchor: middle;    /* centers text */
+    dominant-baseline: middle;
+    pointer-events: none;   /* no collision */
+}   
+
+.slice:hover .shape,
+.slice:focus-visible .shape,
+.slice.active .shape {
+  transform: scale(1.15);   /* bigger shape */
+  filter: brightness(1.08);     /* brighter shape */
+}
+
+/* middle circle */
+.wheel .hub {
+  fill: var(--bg);
+  stroke: var(--bg);
+  stroke-opacity: .4;
 }

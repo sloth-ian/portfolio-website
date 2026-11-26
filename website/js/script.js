@@ -1,31 +1,75 @@
 const nav = document.getElementById("nav");     // get nav / finds the id = nav in html
 const sections = Array.from(document.querySelectorAll("main section"));     // saves all sections in main + has the .some function
 
-nav.innerHTML = "";   // removes all links inside (no duplicates)
+// svg stuff
 
-sections.forEach(function (section) {
-  const link = document.createElement("a"); // new <a> tag
-  link.href = "#" + section.id;                           // makes a link with # and the name of the section
-  link.textContent = section.dataset.title || section.querySelector("h2").textContent;   
+const svgWord  = "http://www.w3.org/2000/svg";  // weird svg tag thing that js needs
+const outer = 200, inner = 25, hub = 50, labelDist = 110;     // outer radius, inner radius, inner circle, distance of text 
+const step = (2 * Math.PI) / sections.length;   // the slice angle (divided by the number of sections I have)
+
+// helper functions
+
+function make(tag, attrs, parent) {        // make SVG element and return it
+    const element = document.createElementNS(svgWord, tag);
+    for (const name in attrs) element.setAttribute(name, attrs[name]);
+    parent.appendChild(element);    
+    return element;
+}
+function point(radius, angle) {            // cartesian coordinates (x,y)
+    return [radius * Math.cos(angle), radius * Math.sin(angle)];
+}
+function slicePath(startAngle, endAngle) {               // the outline of one slice (for the wheel wedges)
+    const startOuter = point(outer, startAngle), endOuter = point(outer, endAngle);
+    const startInner = point(inner, startAngle), endInner = point(inner, endAngle);
+    const MAX = endAngle - startAngle > Math.PI ? 1 : 0;
+    return "M" + startOuter.join(" ") +
+    " A" + outer + " " + outer + " 0 " + MAX + " 1 " + endOuter.join(" ") +
+    " L" + endInner.join(" ") +
+    " A" + inner + " " + inner + " 0 " + MAX + " 0 " + startInner.join(" ") + " Z";
+}
+
+nav.innerHTML = "";   // removes all links inside (no duplicates)
+nav.classList.add("wheel");
+
+const svg = make("svg", { viewBox: "-250 -250 500 500" }, nav);
+
+const slices = sections.map(function (section, i) {
+    const start = (i - 0.5) * step - Math.PI / 2;   // first slice is centered at the top
+    const end = start + step;
+    const mid = (start + end) / 2;
+    const path = slicePath(start, end);
+    const label = section.dataset.title || section.querySelector("h2").textContent;
     // finds the heading title and makes it the name of the link
     // also tries a dataset title first if it exists
-  nav.appendChild(link);    // puts the link and stuff into nav
+
+    //slice maker
+    const slice = make("a", { "class": "slice", href: "#" + section.id }, svg);
+    slice.style.setProperty("--h", (250 + (i / sections.length) * 360) % 360);   // each slice gets its own color
+
+    make("path", { "class": "hit", d: path }, slice);          // invisible copy that stays put, so hovering never flickers
+    const shape = make("g", { "class": "shape" }, slice);   // the visible part that grows
+    make("path", { d: path }, shape);
+    const pos = point(labelDist, mid);
+    make("text", { "class": "label", x: pos[0], y: pos[1] }, shape).textContent = label;
+    return slice;
 });
 
-function showSection(id) {  // old highlight function + it hides all the sections
-  sections.forEach(function (section) {
-    section.classList.toggle("hidden", section.id !== id);  // adds hidden modifier to everything but the section clicked
-  });
-  nav.querySelectorAll("a").forEach(function (link) {   // gets all of the links
-    link.classList.toggle("active", link.getAttribute("href") === "#" + id);    
-        // checks if the link is the same as page url link - uses the href name instead of location hash
-  });
+make("circle", { "class": "hub", r: hub }, svg);
+
+function showSection(i) {  // old highlight function + it hides all the sections + slice
+    sections.forEach(function (section, j) {
+        section.classList.toggle("hidden", j !== i);
+    });
+    slices.forEach(function (slice, j) {    
+        slice.classList.toggle("active", j === i);
+    });
 }
 
 function route() {  // reads url to check section hider
-  const id = location.hash.slice(1);    // gets the id name
-  const exists = sections.some(function (section) { return section.id === id; });   // uses some to check if the id is equal
-  showSection(exists ? id : sections[0].id);    // if the section does exist then you go there if not just do main section
+    const id = location.hash.slice(1);    // gets the id name
+    let i = sections.findIndex(function (section) { return section.id === id; });   // we find index now
+    if (i < 0) i = 0;   // if it doesn't exist we just put 0 
+    showSection(i);
 }
 
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
