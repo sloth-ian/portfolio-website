@@ -66,7 +66,7 @@ const slices = sections.map(function (section, i) {
 
 make("circle", { "class": "hub", r: hub }, svg);
 
-function showMenu() {                              // menu mode: only the wheel
+function showMenu() {                              // menu mode only wheel
     current = -1;                                  // nothing is selected
     document.body.classList.remove("viewing");
     sections.forEach(function (section) { section.classList.add("hidden"); });
@@ -82,6 +82,7 @@ function showSection(i) {  // old highlight function + it hides all the sections
     });
     slices.forEach(function (slice, j) {    
         slice.classList.toggle("active", j === i);
+        slice.classList.remove("highlight");
     });
     window.scrollTo(0, 0);
 }
