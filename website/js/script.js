@@ -80,6 +80,14 @@ function setHighlight(i) {
     });
 }
 
+function moveHighlight(direction) {
+    let i = highlighted;
+    do {
+        i = (i + direction + sections.length) % sections.length;
+    } while (i === current && sections.length > 1);
+    setHighlight(i);
+}
+
 function route() {  // reads url to check section hider
     const id = location.hash.slice(1);    // gets the id name
     let i = sections.findIndex(function (section) { return section.id === id; });   // we find index now
@@ -93,10 +101,10 @@ route();    // already runs highlight(route now) just in case the link is alread
 window.addEventListener("keydown", function (e) {   // arrow key buttons now! + enter
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();                        
-        setHighlight(highlighted + 1);
+        moveHighlight(1);
     } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();                          
-        setHighlight(highlighted - 1);
+        moveHighlight(-1);
     } else if (e.key === "Enter") {
         e.preventDefault();                          
         location.hash = sections[highlighted].id;    // select the highlighted slice

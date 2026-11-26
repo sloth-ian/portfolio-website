@@ -131,8 +131,6 @@ nav.wheel {     /* wheel variable */
     pointer-events: none;   /* no collision */
 }   
 
-.slice:hover .shape,
-.slice:focus-visible .shape,
 .slice.highlight .shape {
   transform: scale(1.08);   /* bigger shape */
   filter: brightness(1.15);     /* brighter shape */
