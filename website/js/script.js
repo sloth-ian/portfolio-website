@@ -1,7 +1,7 @@
 const nav = document.getElementById("nav");     // get nav / finds the id = nav in html
 const sections = Array.from(document.querySelectorAll("main section"));     // saves all sections in main + has the .some function
 let current = 0;
-let highlighted = 0;
+let highlighted = -1;
 
 // svg stuff
 
@@ -68,6 +68,7 @@ make("circle", { "class": "hub", r: hub }, svg);
 
 function showMenu() {                              // menu mode only wheel
     current = -1;                                  // nothing is selected
+    highlighted = -1;
     document.body.classList.remove("viewing");
     sections.forEach(function (section) { section.classList.add("hidden"); });
     slices.forEach(function (slice) { slice.classList.remove("active", "highlight"); });
@@ -76,6 +77,7 @@ function showMenu() {                              // menu mode only wheel
 function showSection(i) {  // old highlight function + it hides all the sections + slice
     current = i;
     setHighlight(i);
+    document.body.classList.remove("zoomed");
     document.body.classList.add("viewing");
     sections.forEach(function (section, j) {
         section.classList.toggle("hidden", j !== i);
@@ -112,6 +114,8 @@ function route() {  // reads url to check section hider
     }
 }
 
+// EVENT LISTENERS (BUTTONS)
+
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
 route();    // already runs highlight(route now) just in case the link is already changed                   
 
@@ -126,9 +130,16 @@ window.addEventListener("keydown", function (e) {   // arrow key buttons now! + 
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
             e.preventDefault();                          
             moveHighlight(-1);
-        } else if (e.key === "Enter") {
+        } else if (e.key === "Enter" && highlighted >= 0) {
             e.preventDefault();                          
             location.hash = sections[highlighted].id;    // select the highlighted slice
         }
+    }
+});
+
+window.addEventListener("contextmenu", function (e) {   //how do i do inspectelement on this then really good question
+    if (!document.body.classList.contains("viewing")) {
+        e.preventDefault(); // only block rightclick while on the main menu
+        document.body.classList.toggle("zoomed");
     }
 });
