@@ -159,6 +159,6 @@ body.zoomed:not(.viewing) nav.wheel {
     bottom: 0;
     left: 0;
     margin: 0;
-    transform: translate(-50%, 50%) scale(1.4);
+    transform: translate(-50%, 50%) scale(3);
     z-index: 100;   /* top layer */
 }
