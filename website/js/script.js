@@ -1,5 +1,6 @@
 const nav = document.getElementById("nav");     // get nav / finds the id = nav in html
 const sections = Array.from(document.querySelectorAll("main section"));     // saves all sections in main + has the .some function
+let current = 0;
 
 // svg stuff
 
@@ -58,6 +59,7 @@ const slices = sections.map(function (section, i) {
 make("circle", { "class": "hub", r: hub }, svg);
 
 function showSection(i) {  // old highlight function + it hides all the sections + slice
+    current = i;
     sections.forEach(function (section, j) {
         section.classList.toggle("hidden", j !== i);
     });
@@ -74,4 +76,13 @@ function route() {  // reads url to check section hider
 }
 
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
-route();    // already runs highlight(route now) just in case the link is already changed                                        
+route();    // already runs highlight(route now) just in case the link is already changed                   
+
+window.addEventListener("keydown", function (e) {   // arrow key buttons now!
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        location.hash = sections[(current + 1) % sections.length].id;
+    }
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        location.hash = sections[(current - 1 + sections.length) % sections.length].id;
+    }
+});
