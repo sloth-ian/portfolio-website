@@ -87,7 +87,7 @@ html {
 /* PART TWO - THE WHEEL (ring disk circle spinny thing) */
 
 nav.wheel {     /* wheel variable */
-    --size: min(86vw, 500px);   /* size of the wheel (86% of view width at max) */
+    --size: min(86vw, 400px);   /* size of the wheel (86% of view width at max) */
     display: block;
     width: var(--size);
     max-width: none;
