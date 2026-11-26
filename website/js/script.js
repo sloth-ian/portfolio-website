@@ -1,6 +1,7 @@
 const nav = document.getElementById("nav");     // get nav / finds the id = nav in html
 const sections = Array.from(document.querySelectorAll("main section"));     // saves all sections in main + has the .some function
 let current = 0;
+let highlighted = 0;
 
 // svg stuff
 
@@ -35,6 +36,9 @@ nav.classList.add("wheel");
 const svg = make("svg", { viewBox: "-250 -250 500 500" }, nav);
 
 const slices = sections.map(function (section, i) {
+    slice.addEventListener("mouseenter", function () { setHighlight(i); });
+    slice.addEventListener("focus", function () { setHighlight(i); });
+
     const start = (i - 0.5) * step - Math.PI / 2;   // first slice is centered at the top
     const end = start + step;
     const mid = (start + end) / 2;
@@ -60,11 +64,19 @@ make("circle", { "class": "hub", r: hub }, svg);
 
 function showSection(i) {  // old highlight function + it hides all the sections + slice
     current = i;
+    setHighlight(i);
     sections.forEach(function (section, j) {
         section.classList.toggle("hidden", j !== i);
     });
     slices.forEach(function (slice, j) {    
         slice.classList.toggle("active", j === i);
+    });
+}
+
+function setHighlight(i) {
+    highlighted = (i + sections.length) % sections.length;   // wraps around at the ends
+    slices.forEach(function (slice, j) {
+        slice.classList.toggle("highlight", j === highlighted);
     });
 }
 
@@ -78,11 +90,15 @@ function route() {  // reads url to check section hider
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
 route();    // already runs highlight(route now) just in case the link is already changed                   
 
-window.addEventListener("keydown", function (e) {   // arrow key buttons now!
+window.addEventListener("keydown", function (e) {   // arrow key buttons now! + enter
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        location.hash = sections[(current + 1) % sections.length].id;
-    }
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        location.hash = sections[(current - 1 + sections.length) % sections.length].id;
+        e.preventDefault();                        
+        setHighlight(highlighted + 1);
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();                          
+        setHighlight(highlighted - 1);
+    } else if (e.key === "Enter") {
+        e.preventDefault();                          
+        location.hash = sections[highlighted].id;    // select the highlighted slice
     }
 });
