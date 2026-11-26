@@ -57,6 +57,10 @@ const slices = sections.map(function (section, i) {
 
     slice.addEventListener("mouseenter", function () { setHighlight(i); });
     slice.addEventListener("focus", function () { setHighlight(i); });
+    
+    slice.addEventListener("mouseleave", function () { slice.classList.remove("highlight"); });
+    slice.addEventListener("blur", function() { slice.classList.remove("highlight"); });
+
     return slice;
 });
 
