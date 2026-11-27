@@ -161,8 +161,10 @@ window.addEventListener("contextmenu", function (e) {   //how do i do inspectele
             turnWheel(highlighted >= 0 ? highlighted : 0);
         } else {
             rot = (((rot % 360) + 540) % 360) - 180;
+            spin.style.transition = "none";
             nav.style.setProperty("--rot", rot);
-            nav.getBoundingClientRect();
+            spin.getBoundingClientRect();
+            spin.style.transition = "";
             document.body.classList.remove("zoomed");
             rot = 0;
         }
