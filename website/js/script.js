@@ -87,7 +87,6 @@ function showSection(i) {  // old highlight function + it hides all the sections
     setHighlight(i);
     document.body.classList.remove("zoomed");
     document.body.classList.add("viewing");
-    turnWheel(0);
     sections.forEach(function (section, j) {
         section.classList.toggle("hidden", j !== i);
     });
@@ -155,5 +154,8 @@ window.addEventListener("contextmenu", function (e) {   //how do i do inspectele
     if (!document.body.classList.contains("viewing")) {
         e.preventDefault(); // only block rightclick while on the main menu
         document.body.classList.toggle("zoomed");
+        if (zoomed) {
+            turnWheel(highlighted >= 0 ? highlighted : 0);
+        }
     }
 });
