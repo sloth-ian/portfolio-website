@@ -162,3 +162,21 @@ body.zoomed:not(.viewing) nav.wheel {
     transform: translate(-50%, 50%) scale(3);
     z-index: 100;   /* top layer */
 }
+
+.spin {     /* spin time! */
+    transform-origin: 0 0;
+    transition: transform 0.6s ease-out;
+}
+
+/* zoom rotation check */
+body.zoomed .spin {
+    transform: rotate(calc(var(--rot, 0) * 1deg));
+}
+
+/* text is not rotated */
+body.zoomed .slice .label {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: rotate(calc(var(--rot, 0) * -1deg));
+    transition: transform 0.6s ease-out;
+}

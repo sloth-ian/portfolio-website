@@ -94,6 +94,13 @@ function setHighlight(i) {
     slices.forEach(function (slice, j) {
         slice.classList.toggle("highlight", j === highlighted);
     });
+    
+    if (document.body.classList.contains("zoomed")) {
+        const stepDeg = 360 / sections.length;
+        const target = 45 - highlighted * stepDeg;
+        rot += (((target - rot) % 360) + 540) % 360 - 180;
+        nav.style.setProperty("--rot", rot);
+    }
 }
 
 function moveHighlight(direction) {
