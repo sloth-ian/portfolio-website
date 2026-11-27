@@ -87,8 +87,6 @@ function showSection(i) {  // old highlight function + it hides all the sections
     setHighlight(i);
     document.body.classList.remove("zoomed");
     document.body.classList.add("viewing");
-    rot = 0;
-    nav.style.setProperty("--rot", 0);
     sections.forEach(function (section, j) {
         section.classList.toggle("hidden", j !== i);
     });
