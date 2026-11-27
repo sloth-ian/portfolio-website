@@ -151,9 +151,12 @@ window.addEventListener("keydown", function (e) {   // arrow key buttons now! + 
             location.hash = sections[highlighted].id;    // select the highlighted slice
         }
     }
+    if (!viewing && e.key === 'e') {    // button keybind for zoom
+        zoom(e);
+    }
 });
 
-window.addEventListener("contextmenu", function (e) {   //how do i do inspectelement on this then really good question
+function zoom(e) {
     if (!document.body.classList.contains("viewing")) {
         e.preventDefault();
         if (!document.body.classList.contains("zoomed")) {
@@ -169,4 +172,8 @@ window.addEventListener("contextmenu", function (e) {   //how do i do inspectele
             rot = 0;
         }
     }
+}
+
+window.addEventListener("contextmenu", function (e) {   //how do i do inspectelement on this then really good question
+    zoom(e);
 });
