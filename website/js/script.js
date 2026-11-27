@@ -67,6 +67,13 @@ const slices = sections.map(function (section, i) {
 
 make("circle", { "class": "hub", r: hub }, svg);
 
+function turnWheel(i) {                              
+    const stepDeg = 360 / sections.length;
+    const target = 45 - i * stepDeg;             
+    rot += (((target - rot) % 360) + 540) % 360 - 180;  
+    nav.style.setProperty("--rot", rot);              
+}
+
 function showMenu() {                              // menu mode only wheel
     current = -1;                                  // nothing is selected
     highlighted = -1;
@@ -97,10 +104,7 @@ function setHighlight(i) {
     });
 
     if (document.body.classList.contains("zoomed")) {
-        const stepDeg = 360 / sections.length;
-        const target = 45 - highlighted * stepDeg;
-        rot += (((target - rot) % 360) + 540) % 360 - 180;
-        nav.style.setProperty("--rot", rot);
+        turnWheel(highlighted);
     }
 }
 
