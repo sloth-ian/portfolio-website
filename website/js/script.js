@@ -73,7 +73,7 @@ make("circle", { "class": "hub", r: hub }, svg);
 function turnWheel(i) {                              
     const stepDeg = 360 / sections.length;
     const target = 45 - i * stepDeg;             
-    rot += (((target - rot) % 360) + 540) % 360 - 180;  
+    rot += ((target - rot) % 360 + 360) % 360;  
     nav.style.setProperty("--rot", rot);              
 }
 
