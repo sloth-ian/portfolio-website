@@ -155,12 +155,16 @@ window.addEventListener("keydown", function (e) {   // arrow key buttons now! + 
 
 window.addEventListener("contextmenu", function (e) {   //how do i do inspectelement on this then really good question
     if (!document.body.classList.contains("viewing")) {
-        e.preventDefault(); // only block rightclick while on the main menu
-        const zoomed = document.body.classList.toggle("zoomed");
-        if (zoomed) {
+        e.preventDefault();
+        if (!document.body.classList.contains("zoomed")) {
+            document.body.classList.add("zoomed");
             turnWheel(highlighted >= 0 ? highlighted : 0);
         } else {
-            rot = ((rot % 360) + 360) % 360;
+            rot = (((rot % 360) + 540) % 360) - 180;
+            nav.style.setProperty("--rot", rot);
+            nav.getBoundingClientRect();
+            document.body.classList.remove("zoomed");
+            rot = 0;
         }
     }
 });
