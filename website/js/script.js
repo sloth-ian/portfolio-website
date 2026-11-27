@@ -122,6 +122,8 @@ function route() {  // reads url to check section hider
     }
 }
 
+const forward = document.body.classList.contains("zoomed") ? -1 : 1;
+
 // EVENT LISTENERS (BUTTONS)
 
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
@@ -134,10 +136,10 @@ window.addEventListener("keydown", function (e) {   // arrow key buttons now! + 
     } else if (!viewing) {
         if (e.key === "ArrowRight" || e.key === "ArrowDown") {
             e.preventDefault();                        
-            moveHighlight(1);
+            moveHighlight(forward);
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
             e.preventDefault();                          
-            moveHighlight(-1);
+            moveHighlight(forward);
         } else if (e.key === "Enter" && highlighted >= 0) {
             e.preventDefault();                          
             location.hash = sections[highlighted].id;    // select the highlighted slice
