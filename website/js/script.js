@@ -59,7 +59,10 @@ const slices = sections.map(function (section, i) {
     slice.addEventListener("mouseenter", function () { setHighlight(i); });
     slice.addEventListener("focus", function () { setHighlight(i); });
 
-    slice.addEventListener("mouseleave", function () { slice.classList.remove("highlight"); });
+    slice.addEventListener("mouseleave", function () { 
+        slice.classList.remove("highlight"); 
+        highlighted = -1;
+    });
     slice.addEventListener("blur", function() { slice.classList.remove("highlight"); });
 
     return slice;
@@ -153,7 +156,7 @@ window.addEventListener("keydown", function (e) {   // arrow key buttons now! + 
 window.addEventListener("contextmenu", function (e) {   //how do i do inspectelement on this then really good question
     if (!document.body.classList.contains("viewing")) {
         e.preventDefault(); // only block rightclick while on the main menu
-        document.body.classList.toggle("zoomed");
+        const zoomed = document.body.classList.toggle("zoomed");
         if (zoomed) {
             turnWheel(highlighted >= 0 ? highlighted : 0);
         }
