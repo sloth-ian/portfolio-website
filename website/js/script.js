@@ -47,9 +47,9 @@ const slices = sections.map(function (section, i) {
     // also tries a dataset title first if it exists
 
     //slice maker
-        const slice = make("a", { "class": "slice", href: "#" + section.id }, spin); 
+    const slice = make("a", { "class": "slice", href: "#" + section.id }, spin); 
+    slice.style.setProperty("--h", (250 + (i / sections.length) * 360) % 360);
         // each slice gets its own color - FIGURE OUT BETTER COLOR SETUP LATER
-
     make("path", { "class": "hit", d: path }, slice);          // hitbox invisible
     const shape = make("g", { "class": "shape" }, slice);   // slice go bigger
     make("path", { d: path }, shape);
