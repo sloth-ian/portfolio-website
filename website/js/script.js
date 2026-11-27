@@ -159,6 +159,9 @@ window.addEventListener("contextmenu", function (e) {   //how do i do inspectele
         const zoomed = document.body.classList.toggle("zoomed");
         if (zoomed) {
             turnWheel(highlighted >= 0 ? highlighted : 0);
+        } else {
+            rot = 0;
+            nav.style.setProperty("--rot", 0);
         }
     }
 });
