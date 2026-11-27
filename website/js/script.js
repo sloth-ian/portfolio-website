@@ -160,7 +160,7 @@ window.addEventListener("contextmenu", function (e) {   //how do i do inspectele
         if (zoomed) {
             turnWheel(highlighted >= 0 ? highlighted : 0);
         } else {
-            rot = 0;
+            rot += (((0 - rot) % 360) + 540) % 360 - 180;
             nav.style.setProperty("--rot", 0);
         }
     }
