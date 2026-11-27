@@ -2,6 +2,7 @@ const nav = document.getElementById("nav");     // get nav / finds the id = nav 
 const sections = Array.from(document.querySelectorAll("main section"));     // saves all sections in main + has the .some function
 let current = 0;
 let highlighted = -1;
+let rot = 0;
 
 // svg stuff
 
@@ -34,6 +35,7 @@ nav.innerHTML = "";   // removes all links inside (no duplicates)
 nav.classList.add("wheel");
 
 const svg = make("svg", { viewBox: "-250 -250 500 500" }, nav);
+const spin = make("g", { "class": "spin" }, svg);  
 
 const slices = sections.map(function (section, i) {
     const start = (i - 0.5) * step - Math.PI / 2;   // first slice is centered at the top
@@ -45,8 +47,7 @@ const slices = sections.map(function (section, i) {
     // also tries a dataset title first if it exists
 
     //slice maker
-    const slice = make("a", { "class": "slice", href: "#" + section.id }, svg);
-    slice.style.setProperty("--h", (250 + (i / sections.length) * 360) % 360);   
+        const slice = make("a", { "class": "slice", href: "#" + section.id }, spin); 
         // each slice gets its own color - FIGURE OUT BETTER COLOR SETUP LATER
 
     make("path", { "class": "hit", d: path }, slice);          // hitbox invisible
@@ -94,7 +95,7 @@ function setHighlight(i) {
     slices.forEach(function (slice, j) {
         slice.classList.toggle("highlight", j === highlighted);
     });
-    
+
     if (document.body.classList.contains("zoomed")) {
         const stepDeg = 360 / sections.length;
         const target = 45 - highlighted * stepDeg;
