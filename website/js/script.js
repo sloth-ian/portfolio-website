@@ -122,14 +122,13 @@ function route() {  // reads url to check section hider
     }
 }
 
-const forward = document.body.classList.contains("zoomed") ? -1 : 1;
-
 // EVENT LISTENERS (BUTTONS)
 
 window.addEventListener("hashchange", route);   // listens if the link changes (kinda like JButton)
 route();    // already runs highlight(route now) just in case the link is already changed                   
 
 window.addEventListener("keydown", function (e) {   // arrow key buttons now! + enter
+    const forward = document.body.classList.contains("zoomed") ? -1 : 1;
     const viewing = document.body.classList.contains("viewing");    // checks if we are on the menu page or not
     if (e.key === "Escape" && viewing) {    // escape exit
         location.hash = "";
@@ -139,7 +138,7 @@ window.addEventListener("keydown", function (e) {   // arrow key buttons now! + 
             moveHighlight(forward);
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
             e.preventDefault();                          
-            moveHighlight(forward);
+            moveHighlight(-forward);
         } else if (e.key === "Enter" && highlighted >= 0) {
             e.preventDefault();                          
             location.hash = sections[highlighted].id;    // select the highlighted slice
